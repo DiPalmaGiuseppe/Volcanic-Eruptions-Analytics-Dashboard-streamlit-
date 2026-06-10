@@ -17,45 +17,49 @@ except Exception as e:
 st.markdown("## 📊 Dataset Description and Preparation")
 
 st.markdown("""
-This project is based on the **Significant Volcanic Eruption Database**, publicly available on Kaggle and originally derived from the Smithsonian Institution's Global Volcanism Program.
+    This project is based on the **Significant Volcanic Eruption Database**, publicly available on
+    [Kaggle](https://www.kaggle.com/datasets/mexwell/significant-volcanic-eruption-database)
+    and originally derived from the
+    [Smithsonian Institution's Global Volcanism Program](https://volcano.si.edu/).
 
-The dataset contains historical records of **significant volcanic eruptions** worldwide. 
-According to the source definition, an eruption is considered significant when at least one of the following conditions is met:
+    The dataset contains historical records of **significant volcanic eruptions** worldwide.
 
-- It caused documented fatalities.
-- It generated substantial economic damage.
-- It produced relevant social or environmental consequences.
-- It reached a high level on the Volcanic Explosivity Index (VEI).
-- It represents an event of particular historical importance.
+    According to the source definition, an eruption is considered significant when at least one of the following conditions is met:
 
-Because of this selection criterion, the dataset does not contain all volcanic eruptions ever recorded, but rather the subset of events considered significant from a geological, social, or economic perspective.
+    - It caused documented fatalities.
+    - It generated substantial economic damage.
+    - It produced relevant social or environmental consequences.
+    - It reached a high level on the Volcanic Explosivity Index (VEI).
+    - It represents an event of particular historical importance.
 
-### Main Attributes Used in This Project
-The original dataset contains more than thirty variables describing eruption characteristics, consequences, and geographic information. 
-For this dashboard only the most relevant variables were selected:
+    Because of this selection criterion, the dataset does not contain all volcanic eruptions ever recorded, but rather the subset of events considered significant from a geological, social, or economic perspective.
 
-- **Year**: year in which the eruption occurred.
-- **Coordinates**: geographic location of the volcano.
-- **Volcano Name**: unique volcano identifier.
-- **Volcano Type**: morphological classification of the volcano.
-- **Country**: country reported in the original database.
-- **Volcanic Explosivity Index (VEI)**: logarithmic scale measuring eruption magnitude from 0 to 8.
-- **Total Effects : Deaths**: total fatalities associated with the eruption, including secondary events.
-- **Flag Tsunami**: indicates whether the eruption generated a tsunami.
-- **Flag Earthquake**: indicates whether the eruption was associated with seismic activity.
+    ### Main Attributes Used in This Project
+    The original dataset contains more than thirty variables describing eruption characteristics, consequences, and geographic information. 
+    For this dashboard only the most relevant variables were selected:
 
-### Data Preparation
-Several preprocessing operations were performed before visualization:
+    - **Year**: year in which the eruption occurred.
+    - **Coordinates**: geographic location of the volcano.
+    - **Volcano Name**: unique volcano identifier.
+    - **Volcano Type**: morphological classification of the volcano.
+    - **Country**: country reported in the original database.
+    - **Volcanic Explosivity Index (VEI)**: logarithmic scale measuring eruption magnitude from 0 to 8.
+    - **Total Effects : Deaths**: total fatalities associated with the eruption, including secondary events.
+    - **Flag Tsunami**: indicates whether the eruption generated a tsunami.
+    - **Flag Earthquake**: indicates whether the eruption was associated with seismic activity.
 
-1. Geographic coordinates were extracted and converted into numerical latitude and longitude values.
-2. Invalid records without temporal or spatial information were removed.
-3. VEI and mortality variables were converted into numerical format.
-4. Volcano morphology and volcano names were standardized to avoid missing categories.
-5. Tsunami and earthquake indicators were transformed into Boolean variables.
-6. A spatial join between eruption coordinates and geopolitical boundaries was performed using GeoPandas to automatically assign each eruption to a country and continent.
-7. The processed dataset was cached using Streamlit's `@st.cache_data` decorator to improve performance and avoid repeated file loading.
+    ### Data Preparation
+    Several preprocessing operations were performed before visualization:
 
-The resulting dataset enables both temporal and spatial analysis of volcanic activity, human impact, eruption intensity, and associated secondary hazards.
+    1. Geographic coordinates were extracted and converted into numerical latitude and longitude values.
+    2. Invalid records without temporal or spatial information were removed.
+    3. VEI and mortality variables were converted into numerical format.
+    4. Volcano morphology and volcano names were standardized to avoid missing categories.
+    5. Tsunami and earthquake indicators were transformed into Boolean variables.
+    6. A spatial join between eruption coordinates and geopolitical boundaries was performed using GeoPandas to automatically assign each eruption to a country and continent.
+    7. The processed dataset was cached using Streamlit's `@st.cache_data` decorator to improve performance and avoid repeated file loading.
+
+    The resulting dataset enables both temporal and spatial analysis of volcanic activity, human impact, eruption intensity, and associated secondary hazards.
 """)
 
 # Primary filters
