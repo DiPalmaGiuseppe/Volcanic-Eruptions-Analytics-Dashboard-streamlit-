@@ -21,11 +21,9 @@ st.markdown("""
     [Kaggle](https://www.kaggle.com/datasets/mexwell/significant-volcanic-eruption-database)
     and originally derived from the
     [Smithsonian Institution's Global Volcanism Program](https://volcano.si.edu/).
-
     The dataset contains historical records of **significant volcanic eruptions** worldwide.
 
     According to the source definition, an eruption is considered significant when at least one of the following conditions is met:
-
     - It caused documented fatalities.
     - It generated substantial economic damage.
     - It produced relevant social or environmental consequences.
@@ -37,7 +35,6 @@ st.markdown("""
     ### Main Attributes Used in This Project
     The original dataset contains more than thirty variables describing eruption characteristics, consequences, and geographic information. 
     For this dashboard only the most relevant variables were selected:
-
     - **Year**: year in which the eruption occurred.
     - **Coordinates**: geographic location of the volcano.
     - **Volcano Name**: unique volcano identifier.
@@ -50,7 +47,6 @@ st.markdown("""
 
     ### Data Preparation
     Several preprocessing operations were performed before visualization:
-
     1. Geographic coordinates were extracted and converted into numerical latitude and longitude values.
     2. Invalid records without temporal or spatial information were removed.
     3. VEI and mortality variables were converted into numerical format.
