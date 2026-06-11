@@ -67,13 +67,29 @@ col_f1, col_f2 = st.columns(2)
 chart_col, text_col = st.columns([2,1])
 with col_f1:
     continent_list = ["All"] + sorted(df_volcano['Continent'].dropna().unique().tolist())
-    idx = continent_list.index(st.session_state["continent"]) if st.session_state["continent"] in continent_list else 0
-    st.session_state["continent"] = st.selectbox("Filter by Continent", continent_list, index=idx)
+    if st.session_state["continent"] not in continent_list:
+        st.session_state["continent"] = "All"
+
+    def _save_continent():
+        st.session_state["continent"] = st.session_state["_continent_widget"]
+
+    st.selectbox("Filter by Continent", continent_list,
+                 index=continent_list.index(st.session_state["continent"]),
+                 key="_continent_widget",
+                 on_change=_save_continent)
+
 with col_f2:
     min_year, max_year = int(df_volcano['Year'].min()), int(df_volcano['Year'].max())
-    # Fallback: if year_range from page 1 is somehow None, use full range
-    current_range = st.session_state.get("year_range") or (min_year, max_year)
-    st.session_state["year_range"] = st.slider("Year Range", min_year, max_year, value=current_range)
+    if st.session_state["year_range"] is None:
+        st.session_state["year_range"] = (min_year, max_year)
+
+    def _save_year_analytics():
+        st.session_state["year_range"] = st.session_state["_year_range_analytics"]
+
+    st.slider("Year Range", min_year, max_year,
+              value=st.session_state["year_range"],
+              key="_year_range_analytics",
+              on_change=_save_year_analytics)
 
 plot_df = df_volcano.copy()
 if st.session_state["continent"] != "All":

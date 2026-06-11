@@ -62,23 +62,28 @@ st.markdown("""
 col1, col2 = st.columns(2)
 with col1:
     min_year, max_year = int(df_volcano['Year'].min()), int(df_volcano['Year'].max())
-    
-    if "year_range" not in st.session_state or st.session_state["year_range"] is None:
+    if st.session_state["year_range"] is None:
         st.session_state["year_range"] = (min_year, max_year)
-    
-    st.session_state["year_range"] = st.slider(
-        "Select historical time range", 
-        min_value=min_year, 
-        max_value=max_year, 
-        value=st.session_state["year_range"]
-    )
-with col2:
-    st.session_state["map_metric"] = st.selectbox(
-        "Select choropleth map background metric", 
-        ["Total Eruptions", "Average VEI", "Total Deaths"],
-        index=["Total Eruptions", "Average VEI", "Total Deaths"].index(st.session_state["map_metric"])
-    )
 
+    def _save_year():
+        st.session_state["year_range"] = st.session_state["_year_range_map"]
+
+    st.slider("Select historical time range",
+              min_value=min_year, max_value=max_year,
+              value=st.session_state["year_range"],
+              key="_year_range_map",
+              on_change=_save_year)
+
+with col2:
+    def _save_metric():
+        st.session_state["map_metric"] = st.session_state["_map_metric_widget"]
+
+    st.selectbox("Select choropleth map background metric",
+                 ["Total Eruptions", "Average VEI", "Total Deaths"],
+                 index=["Total Eruptions", "Average VEI", "Total Deaths"].index(st.session_state["map_metric"]),
+                 key="_map_metric_widget",
+                 on_change=_save_metric)
+    
 y_min, y_max = st.session_state["year_range"]
 indexed_df = df_volcano.set_index('Year').sort_index()
 filtered_df = indexed_df.loc[y_min:y_max].reset_index()
@@ -107,7 +112,14 @@ volcano_agg = filtered_df.groupby('Volcano Name').agg(
 @st.fragment
 def render_folium_map(coropleth_data, point_data):
     
-    show_clusters = st.checkbox("Raggruppa vulcani vicini (cluster)", value=True)
+    def _save_clusters():
+        st.session_state["show_clusters"] = st.session_state["_show_clusters_widget"]
+
+    st.checkbox("Raggruppa vulcani vicini (cluster)",
+                value=st.session_state["show_clusters"],
+                key="_show_clusters_widget",
+                on_change=_save_clusters)
+    show_clusters = st.session_state["show_clusters"]
     m = folium.Map(location=[20, 0], zoom_start=2, tiles="cartodbpositron")
     
     # Layer 1: Choropleth Map (Country Context)
